@@ -3,7 +3,12 @@ signups = pd.read_excel("signups.xlsx", sheet_name = "Sheet1")
 
 # Take care of missing values
 print("\nThe following people need to be contacted because they didn't provide a complete response")
-print(signups.apply(lambda x: print(signups[x.isnull()].Name.to_string(index=False))))
+# Filter the signups DataFrame to get the rows with missing data using signups
+missing_data = signups[signups.isnull().any(axis=1)]
+# Check if the filtered DataFrame missing_data is not empty
+if not missing_data.empty:
+# Print the names of users who have missing data, without resulting unwanted output
+    print(missing_data.Name.to_string(index=False))
 
 # Function to find all people that have signed up for the specific project.
 # Note: This was possible because I'm now accessing each column using bracket notation instead of dot notation. Previously, when I used dot notation to access all columns, it wasn't possible to take in column names as a parameter. 
@@ -28,6 +33,3 @@ for row in signups.index:
             numProjects += 1
 
     print(row, "has", numProjects, "projects.")
-
-
-
